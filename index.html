@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire de Projets</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Liste des Projets</h1>
+        </header>
+        
+        <div class="projects-table">
+            <table id="monTableau">
+                <thead>
+                    <tr>
+                        <th>Nom du Projet</th>
+                        <th>Description</th>
+                        <th>Auteur(s)</th>
+                        <th>Technologies envigagés</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+                    <script>
+
+                        async function getData() {
+                            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-3CL2ljdFvyKuTAPy7VwoqbWwZSAkNSTsWT_qPnXcahbreBQkVuV7qCuKgTmRfc3NnV7hB5Ja-8yp/pub?output=csv";
+                            const response = await fetch(url);
+                            const text = await response.text();
+
+                            // Parse CSV proprement (respecte les guillemets et virgules internes)
+                            const result = Papa.parse(text, {
+                                header: false,   // false = tableau brut
+                                skipEmptyLines: true
+                            });
+
+                            const rows = result.data;
+
+                            rows.forEach(function(d, i) {
+                                if (i > 0) {
+
+                                    let projet = d[1]; 
+                                    let description = d[2]; 
+                                    let auteur = d[3]; 
+                                    let technologies = d[4]; 
+                                    // Sélection du tableau 
+                                    let tableau = document.getElementById("monTableau").getElementsByTagName("tbody")[0]; 
+                                    // Création d'une nouvelle ligne 
+                                    let nouvelleLigne = tableau.insertRow(); 
+                                    // Création des cellules et ajout des données 
+                                    let cellProjet = nouvelleLigne.insertCell(0); 
+                                    let cellDescription = nouvelleLigne.insertCell(1); 
+                                    let cellAuteur = nouvelleLigne.insertCell(2); 
+                                    let cellTechnologies = nouvelleLigne.insertCell(3); 
+                                    cellProjet.textContent = projet; 
+                                    cellDescription.textContent = description; 
+                                    cellAuteur.textContent = auteur; 
+                                    cellTechnologies.textContent = technologies;
+                                }
+                            })
+
+    
+                        }
+                        getData();
+
+                    </script>    
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="empty-state">
+            <p>Master 2 THYP 2025-2026</p>
+        </div>
+    </div>
+
+    <script>
+        // Animation d'entrée des lignes du tableau
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach((row, index) => {
+            row.style.opacity = '0';
+            row.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                row.style.transition = 'opacity 0.5s, transform 0.5s';
+                row.style.opacity = '1';
+                row.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    </script>
+</body>
+</html>
