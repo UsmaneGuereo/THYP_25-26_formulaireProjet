@@ -10,6 +10,9 @@
     <div class="container">
         <header>
             <h1>Liste des Projets</h1>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw5_SWiUIIb--HoeEVXNrm00AyWMyht_bkXppAH5e2V7paMQ/viewform?usp=header">
+                <button>Lien du formuaire</button>
+            </a>
         </header>
         
         <div class="projects-table">
@@ -18,9 +21,8 @@
                     <tr>
                         <th>Nom du Projet</th>
                         <th>Description</th>
-                        <th>Auteur(s)</th>
+                        <th>Auteur(s)/Team</th>
                         <th>Technologies envigagés</th>
-                       
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +51,7 @@
                                     let technologies = d[4]; 
                                     // Sélection du tableau 
                                     let tableau = document.getElementById("monTableau").getElementsByTagName("tbody")[0]; 
+                                    console.log(tableau);
                                     // Création d'une nouvelle ligne 
                                     let nouvelleLigne = tableau.insertRow(); 
                                     // Création des cellules et ajout des données 
